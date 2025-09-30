@@ -1,40 +1,1312 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
 
-		<title>reveal.js</title>
+    <title>SVG animations</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+    <style>
+      .notes {
+        display: none;
+      }
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+      .reveal pre code {
+        border-radius: 20px;
+        padding: 20px 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>SVG Animations</h1>
+        </section>
+
+        <section>
+          <h2>Why animations?</h2>
+        </section>
+
+        <section id="examples">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              grid-template-rows: 1fr 1fr;
+              align-items: center;
+              justify-items: center;
+            "
+            id="animation-examples"
+          >
+            <svg
+              id="loading-spinner"
+              viewBox="0 0 10 10"
+              width="50%"
+              style="margin: auto"
+            >
+              <defs>
+                <linearGradient id="spinner-gradient">
+                  <stop stop-color="red" stop-opacity="0" offset="0%" />
+                  <stop stop-color="red" stop-opacity="1" offset="50%" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M2,5 A3,3 0 1 1 5,8"
+                fill="none"
+                stroke-width="1"
+                stroke="url(#spinner-gradient)"
+                stroke-linecap="round"
+              />
+            </svg>
+            <button id="ai-spinner">
+              <div>Ask AI</div>
+            </button>
+            <div>
+              <button id="shake-button">Submit</button>
+              <div id="error-message">Something went wrong</div>
+            </div>
+            <div>
+              <button id="open-modal">Open</button>
+              <div id="modal"></div>
+            </div>
+            <nav id="slide"><a>Home</a><a>About</a><a>Contact</a></nav>
+          </div>
+
+          <style>
+            #animation-examples button {
+              width: 150px;
+              height: 60px;
+              border-radius: 8px;
+              cursor: pointer;
+              margin: auto;
+              font-size: 1.5rem;
+            }
+
+            #loading-spinner.animate {
+              animation: spin 0.5s infinite linear;
+            }
+
+            @keyframes spin {
+              from {
+                transform: rotate(0deg);
+              }
+              to {
+                transform: rotate(360deg);
+              }
+            }
+
+            #ai-spinner {
+              border-radius: 10000px;
+              border: none;
+              padding: 4px;
+              display: flex;
+              background: conic-gradient(
+                hsl(360 100% 50%),
+                hsl(315 100% 50%),
+                hsl(270 100% 50%),
+                hsl(225 100% 50%),
+                hsl(180 100% 50%),
+                hsl(135 100% 50%),
+                hsl(90 100% 50%),
+                hsl(45 100% 50%),
+                hsl(0 100% 50%)
+              );
+              background-size: 400% 400%;
+              background-position: 0% 50%;
+
+              div {
+                background: white;
+                border-radius: inherit;
+                flex-grow: 1;
+                align-content: center;
+              }
+
+              &.animate {
+                animation: background-spin 1s infinite linear;
+              }
+            }
+
+            @keyframes background-spin {
+              0%,
+              100% {
+                background-position: 25% 25%;
+              }
+              25% {
+                background-position: 75% 25%;
+              }
+              50% {
+                background-position: 75% 75%;
+              }
+              75% {
+                background-position: 25% 75%;
+              }
+            }
+
+            #shake-button {
+              background: hsl(118, 76%, 43%);
+              border: 4px solid white;
+              color: white;
+              font-size: 1.5rem;
+              box-shadow: inset 0px 0px 4px hsl(0 0% 100% /0.2);
+              transition: background 0.2s;
+
+              &:active {
+                box-shadow: inset 0px 0px 4px hsl(0 0% 0% /0.2);
+              }
+              &:hover {
+                background: hsl(118 76% 32%);
+              }
+
+              & + div {
+                margin-block-start: 20px;
+                font-size: 1.5rem;
+                color: hsl(0, 82%, 58%);
+                opacity: 0;
+                transform: opacity 0.2s;
+              }
+
+              &.animate {
+                animation: shake 0.3s ease-in;
+
+                & + div {
+                  opacity: 1;
+                }
+              }
+            }
+
+            @keyframes shake {
+              20% {
+                transform: translateX(-2%);
+              }
+              40% {
+                transform: translateX(4%);
+              }
+              60% {
+                transform: translateX(-4%);
+              }
+              80% {
+                transform: translateX(8%);
+              }
+            }
+
+            #modal {
+              width: 200px;
+              height: 250px;
+              background: white;
+              position: absolute;
+              border-radius: 20px;
+              top: 25%;
+              left: -100vw;
+              transition: left 0.3s ease-out;
+
+              &.animate {
+                left: 10%;
+              }
+
+              &::before,
+              &::after {
+                content: "";
+                width: 80%;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+              }
+
+              &::before {
+                height: 40px;
+                top: 20px;
+                background: hsl(0 0% 90%);
+              }
+
+              &::after {
+                height: 150px;
+                top: 80px;
+                background: repeating-linear-gradient(
+                  hsl(0 0% 90%),
+                  hsl(0 0% 90%) 25px,
+                  white 25px,
+                  white 35px
+                );
+              }
+            }
+
+            #slide {
+              --colour: hsl(200, 83%, 53%);
+              color: var(--colour);
+              grid-column: span 2;
+              border: 4px solid var(--colour);
+              cursor: pointer;
+              position: relative;
+              display: grid;
+              grid-template-columns: repeat(3, 200px);
+
+              &::before {
+                content: "";
+                position: absolute;
+                width: 200px;
+                height: 100%;
+                transition: left 0.3s ease-in 0.1s;
+              }
+
+              &:hover::before {
+                background-color: var(--colour);
+              }
+
+              &:has(:nth-child(1):hover)::before {
+                left: 0;
+              }
+              &:has(:nth-child(2):hover)::before {
+                left: 200px;
+              }
+              &:has(:nth-child(3):hover)::before {
+                left: 400px;
+              }
+
+              a {
+                display: inline-block;
+                padding-inline: 30px;
+                padding-block: 15px;
+                transition: color 0.2s 0.1s;
+
+                &:not(:last-child) {
+                  border-inline-end: 2px solid var(--colour);
+                }
+
+                &:hover {
+                  color: hsl(0 0% 20%);
+                }
+              }
+            }
+          </style>
+
+          <script>
+            const loadingSpinner = document.getElementById("loading-spinner")
+            loadingSpinner.addEventListener("click", () => {
+              loadingSpinner.classList.toggle("animate")
+            })
+
+            const aiButton = document.getElementById("ai-spinner")
+            aiButton.addEventListener("click", () => {
+              aiButton.classList.add("animate")
+            })
+
+            const shakeButton = document.getElementById("shake-button")
+            shakeButton.addEventListener("click", () => {
+              shakeButton.classList.toggle("animate")
+            })
+
+            const modalButton = document.getElementById("open-modal")
+            const modal = document.getElementById("modal")
+            modalButton.addEventListener("click", () => {
+              modal.classList.add("animate")
+            })
+          </script>
+        </section>
+
+        <section id="demos">
+          <div style="display: flex; gap: 100px; justify-content: center">
+            <style>
+              .numbers path {
+                transition: transform 0.2s ease-in-out;
+              }
+              .numbers:hover path,
+              .numbers:focus path {
+                transform: translateY(-10%);
+
+                &:nth-child(2) {
+                  transition-delay: 0.15s;
+                }
+                &:nth-child(3) {
+                  transition-delay: 0.3s;
+                }
+              }
+            </style>
+            <svg width="200px" viewBox="0 0 56 56" class="numbers">
+              <path
+                fill="blue"
+                d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
+              />
+              <path
+                fill="green"
+                d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
+            34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
+            32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
+            30.9145 C 32.2647 26.6773 33.5672 24.4762 33.5672 21.6698 C 33.5672
+            17.4510 29.8435 14.2410 24.8726 14.2410 C 20.9657 14.2410 17.6273
+            16.3688 16.5084 19.5971 C 16.3066 20.2024 16.1966 20.7343 16.1966
+            21.1929 C 16.1966 22.1100 16.7468 22.7153 17.6456 22.7153 C 18.5078
+            22.7153 18.8746 22.3118 19.1497 21.3947 C 19.2965 20.8261 19.4983
+            20.2941 19.7917 19.8355 C 20.7639 18.1847 22.5798 17.1575 24.8726
+            17.1575 C 27.8442 17.1575 30.2104 19.2486 30.2104 21.8532 C 30.2104
+            23.9627 29.3483 25.3750 25.7164 28.9702 L 17.1320 37.5546 C 16.3617
+            38.3066 16.1232 38.7835 16.1232 39.4439 C 16.1232 40.3977 16.7468
+            40.9846 17.7190 40.9846 Z"
+              />
+              <path
+                fill="red"
+                d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
+              />
+            </svg>
+
+            <style>
+              .bar-chart .bar {
+                transform-origin: 0 calc(100% - 4px);
+              }
+              .bar-chart:hover .bar {
+                animation: squish 1s ease-out;
+              }
+
+              @keyframes squish {
+                from {
+                  transform: scaleY(0);
+                }
+                to {
+                  transform: scaleY(100%);
+                }
+              }
+            </style>
+
+            <svg
+              width="200px"
+              viewBox="0 0 56 56"
+              fill="none"
+              class="bar-chart"
+              stroke-width="4"
+            >
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M8,51 l0,-20 8,0 0,20"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M22,51 l0,-11 8,0 0,11"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M36,51 l0,-31 8,0 0,31"
+              />
+              <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+            </svg>
+
+            <style>
+              .line-chart:hover path {
+                animation: draw 1s linear;
+              }
+
+              @keyframes draw {
+                from {
+                  stroke-dashoffset: 72.1825180053711;
+                }
+                to {
+                  stroke-dashoffset: 0;
+                }
+              }
+            </style>
+
+            <svg
+              viewBox="0 0 56 56"
+              width="200px"
+              fill="none"
+              class="line-chart"
+            >
+              <path
+                stroke="blue"
+                stroke-width="2"
+                stroke-dasharray="72.1825180053711 72.1825180053711"
+                d="M4,34 l15,-10 15,20 15,-25"
+              />
+              <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+            </svg>
+          </div>
+        </section>
+
+        <section>
+          <div style="display: flex">
+            <h2>
+              not like the<br />
+              other image formats
+            </h2>
+            <img width="400px" src="./dist/sheep.png" alt="a black sheep" />
+          </div>
+        </section>
+
+        <section id="bitmap">
+          <style>
+            .heart-container div {
+              border: 1px solid hsl(0 0 40%);
+              background: white;
+            }
+          </style>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding-inline: 80px;
+              gap: 40px;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(8, 30px);
+                grid-template-rows: repeat(8, 30px);
+              "
+              class="heart-container"
+            >
+              <!-- row 1 -->
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+
+              <!-- row 2 -->
+              <div></div>
+              <div style="background-color: black"></div>
+              <div style="background-color: black"></div>
+              <div></div>
+              <div style="background-color: black"></div>
+              <div style="background-color: black"></div>
+              <div style="background-color: black"></div>
+              <div></div>
+              <!-- row 3 -->
+              <div style="background-color: black"></div>
+              <div></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: black"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: maroon"></div>
+              <div style="background-color: black"></div>
+              <!-- row 4 -->
+              <div style="background-color: black"></div>
+              <div></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: maroon"></div>
+              <div style="background-color: black"></div>
+              <!-- row 5 -->
+              <div style="background-color: black"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: maroon"></div>
+              <div style="background-color: black"></div>
+              <!-- row 6 -->
+              <div></div>
+              <div style="background-color: black"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: red"></div>
+              <div style="background-color: maroon"></div>
+              <div style="background-color: black"></div>
+              <div></div>
+              <!-- row 7 -->
+              <div></div>
+              <div></div>
+              <div style="background-color: black"></div>
+              <div style="background-color: maroon"></div>
+              <div style="background-color: maroon"></div>
+              <div style="background-color: black"></div>
+              <div></div>
+              <div></div>
+              <!-- row 8 -->
+              <div></div>
+              <div></div>
+              <div></div>
+              <div style="background-color: black"></div>
+              <div style="background-color: black"></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(8, 30px);
+                grid-template-rows: repeat(8, 30px);
+                color: hsl(0 0 50%);
+                font-size: 24px;
+              "
+              class="heart-container"
+            >
+              <!-- row 1 -->
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+
+              <!-- row 2 -->
+              <div>w</div>
+              <div>b</div>
+              <div>b</div>
+              <div>w</div>
+              <div>b</div>
+              <div>b</div>
+              <div>b</div>
+              <div>w</div>
+              <!-- row 3 -->
+              <div>b</div>
+              <div>w</div>
+              <div>r</div>
+              <div>b</div>
+              <div>r</div>
+              <div>r</div>
+              <div>m</div>
+              <div>b</div>
+              <!-- row 4 -->
+              <div>b</div>
+              <div>w</div>
+              <div>r</div>
+              <div>r</div>
+              <div>r</div>
+              <div>r</div>
+              <div>m</div>
+              <div>b</div>
+              <!-- row 5 -->
+              <div>b</div>
+              <div>r</div>
+              <div>r</div>
+              <div>r</div>
+              <div>r</div>
+              <div>r</div>
+              <div>m</div>
+              <div>b</div>
+              <!-- row 6 -->
+              <div>w</div>
+              <div>b</div>
+              <div>r</div>
+              <div>r</div>
+              <div>r</div>
+              <div>m</div>
+              <div>b</div>
+              <div>w</div>
+              <!-- row 7 -->
+              <div>w</div>
+              <div>w</div>
+              <div>b</div>
+              <div>m</div>
+              <div>m</div>
+              <div>b</div>
+              <div>w</div>
+              <div>w</div>
+              <!-- row 8 -->
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+              <div>b</div>
+              <div>b</div>
+              <div>w</div>
+              <div>w</div>
+              <div>w</div>
+            </div>
+
+            <code
+              style="
+                width: 305px;
+                line-break: anywhere;
+                text-align: start;
+                font-size: 24px;
+              "
+            >
+              w8wb2wb3wbrbr2mbbr4mbbr5mbwbr3mbww2bm2bw2w3w2w3
+            </code>
+          </div>
+        </section>
+
+        <section data-state="heart-svg">
+          <div>
+            <svg
+              viewBox="0 0 8 8"
+              width="240px"
+              style="background: transparent"
+              stroke-width="0.5"
+              fill="red"
+            >
+              <path
+                stroke="hsl(200 90% 80%)"
+                d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
+              />
+            </svg>
+            <pre class="language-html"><code class="html"><svg
+  viewbox="0 0 8 8"
+>
+  <path 
+    stroke="white" fill="red"
+    d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z" 
+  >
+  </path>
+</svg></code></pre>
+          </div>
+        </section>
+
+        <section id="image-comparison">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 40px;
+              justify-content: center;
+            "
+          >
+            <img
+              src="dist/heart-container.png"
+              alt="JPEG image gets blurry when its size is increased"
+              style="max-width: unset; max-height: unset"
+            />
+            <svg
+              viewBox="0 0 8 8"
+              width="350px"
+              style="background: transparent"
+              stroke-width="0.5"
+              fill="red"
+            >
+              <path
+                stroke="hsl(200 90% 80%)"
+                d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
+              />
+            </svg>
+          </div>
+        </section>
+
+        <section id="using-svg">
+          <pre
+            style="margin-block-end: 40px"
+          ><code class="html" data-line-numbers="|3"><button onClick="addToFavourites">
+  Add to favourites
+  <img src="heart.svg" alt="" />
+</button></code></pre>
+
+          <pre><code data-line-numbers="|3,4,5"><button onClick="addToFavourites">
+  Add to favourites
+  <svg
+    viewBox="0 0 8 8"
+    fill="red"
+    stroke="black"
+  >
+    <path
+      d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
+    />
+  </svg>
+</button></code></pre>
+        </section>
+
+        <section id="svg-component">
+          <pre><code data-line-numbers="" class="jsx">export function HeartIcon () {
+  return <svg
+    viewBox="0 0 8 8"
+    fill="red"
+    stroke="black"
+  >
+    <path
+      d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
+    />
+  </svg>
+}</code></pre>
+
+          <pre><code data-line-numbers="|3">&lt;button onClick={addToFavourites}>
+  Add to favourites
+  &lt;HeartIcon />
+&lt;/button></code></pre>
+        </section>
+
+        <section>
+          <ol>
+            <li>SVGs are HTMLish</li>
+          </ol>
+        </section>
+
+        <section>
+          <svg
+            viewBox="0 0 8 8"
+            width="60%"
+            style="background: transparent"
+            stroke-width="0.5"
+            fill="red"
+          >
+            <path
+              stroke="hsl(200 90% 80%)"
+              d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
+            />
+          </svg>
+
+          <div class="notes">
+            *example SVG* demonstrate my favourite debugging technique - outline
+            some properties are a little different though - stroke & fill vs
+            color & background colour and some don't work at all - width/height,
+            x/y so we can use this to apply our animations
+          </div>
+        </section>
+
+        <section id="numbers-example">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              width: 70%;
+              margin: auto;
+            "
+          >
+            <svg width="250px" viewBox="0 0 56 56" class="numbers" tabindex="0">
+              <path
+                fill="blue"
+                d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
+              />
+              <path
+                fill="green"
+                d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
+            34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
+            32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
+            30.9145 C 32.2647 26.6773 33.5672 24.4762 33.5672 21.6698 C 33.5672
+            17.4510 29.8435 14.2410 24.8726 14.2410 C 20.9657 14.2410 17.6273
+            16.3688 16.5084 19.5971 C 16.3066 20.2024 16.1966 20.7343 16.1966
+            21.1929 C 16.1966 22.1100 16.7468 22.7153 17.6456 22.7153 C 18.5078
+            22.7153 18.8746 22.3118 19.1497 21.3947 C 19.2965 20.8261 19.4983
+            20.2941 19.7917 19.8355 C 20.7639 18.1847 22.5798 17.1575 24.8726
+            17.1575 C 27.8442 17.1575 30.2104 19.2486 30.2104 21.8532 C 30.2104
+            23.9627 29.3483 25.3750 25.7164 28.9702 L 17.1320 37.5546 C 16.3617
+            38.3066 16.1232 38.7835 16.1232 39.4439 C 16.1232 40.3977 16.7468
+            40.9846 17.7190 40.9846 Z"
+              />
+              <path
+                fill="red"
+                d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
+              />
+            </svg>
+
+            <svg width="250px" viewBox="0 0 56 56" id="numbers">
+              <path
+                fill="blue"
+                d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
+              />
+              <path
+                fill="green"
+                d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
+            34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
+            32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
+            30.9145 C 32.2647 26.6773 33.5672 24.4762 33.5672 21.6698 C 33.5672
+            17.4510 29.8435 14.2410 24.8726 14.2410 C 20.9657 14.2410 17.6273
+            16.3688 16.5084 19.5971 C 16.3066 20.2024 16.1966 20.7343 16.1966
+            21.1929 C 16.1966 22.1100 16.7468 22.7153 17.6456 22.7153 C 18.5078
+            22.7153 18.8746 22.3118 19.1497 21.3947 C 19.2965 20.8261 19.4983
+            20.2941 19.7917 19.8355 C 20.7639 18.1847 22.5798 17.1575 24.8726
+            17.1575 C 27.8442 17.1575 30.2104 19.2486 30.2104 21.8532 C 30.2104
+            23.9627 29.3483 25.3750 25.7164 28.9702 L 17.1320 37.5546 C 16.3617
+            38.3066 16.1232 38.7835 16.1232 39.4439 C 16.1232 40.3977 16.7468
+            40.9846 17.7190 40.9846 Z"
+              />
+              <path
+                fill="red"
+                d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
+              />
+            </svg>
+          </div>
+        </section>
+
+        <section>
+          <ol>
+            <li>SVGs are HTMLish</li>
+            <li class="fragment">✅ CSS transforms & transitions</li>
+          </ol>
+        </section>
+
+        <section>
+          <svg
+            width="200px"
+            viewBox="0 0 56 56"
+            fill="none"
+            class="bar-chart"
+            stroke-width="4"
+            style="margin-block-end: 100px"
+          >
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M8,51 l0,-20 8,0 0,20"
+            />
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M22,51 l0,-11 8,0 0,11"
+            />
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M36,51 l0,-31 8,0 0,31"
+            />
+            <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+          </svg>
+          <br />
+
+          <style>
+            .bar-chart-start-state .bar {
+              transform: scaleY(0);
+            }
+          </style>
+
+          <div class="fragment">
+            <svg width="200px" viewBox="0 0 56 56" fill="none" stroke-width="4">
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M8,51 l0,-20 8,0 0,20"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M22,51 l0,-11 8,0 0,11"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M36,51 l0,-31 8,0 0,31"
+              />
+              <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+            </svg>
+            <svg
+              width="200px"
+              viewBox="0 0 56 56"
+              fill="none"
+              stroke-width="4"
+              class="bar-chart-start-state"
+            >
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M8,51 l0,-20 8,0 0,20"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M22,51 l0,-11 8,0 0,11"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M36,51 l0,-31 8,0 0,31"
+              />
+              <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+            </svg>
+            <svg width="200px" viewBox="0 0 56 56" fill="none" stroke-width="4">
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M8,51 l0,-20 8,0 0,20"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M22,51 l0,-11 8,0 0,11"
+              />
+              <path
+                class="bar"
+                stroke="blue"
+                fill="blue"
+                stroke-linejoin="round"
+                d="M36,51 l0,-31 8,0 0,31"
+              />
+              <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+            </svg>
+          </div>
+
+          <div class="fragment">
+            <pre><code class="css">.bar-chart .bar {
+  transform: scaleY(0)
+}</code></pre>
+          </div>
+        </section>
+
+        <section>
+          <pre><code class="css" data-line-numbers="|2-4|5-7">@keyframes squish {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(100%);
+  }
+}</code></pre>
+          <svg
+            id="bar-chart"
+            width="400px"
+            viewBox="0 0 56 56"
+            fill="none"
+            stroke-width="4"
+          >
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M8,51 l0,-20 8,0 0,20"
+            />
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M22,51 l0,-11 8,0 0,11"
+            />
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M36,51 l0,-31 8,0 0,31"
+            />
+            <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+          </svg>
+        </section>
+
+        <section>
+          <ol>
+            <li>SVGs are HTMLish</li>
+            <li>
+              ✅ CSS transforms, transitions
+              <span class="fragment">& animations</span>
+            </li>
+            <li class="fragment">⚠️ transform-box</li>
+          </ol>
+        </section>
+
+        <section>
+          <svg viewBox="0 0 56 56" width="600px" fill="none" class="line-chart">
+            <path
+              stroke="blue"
+              stroke-width="2"
+              stroke-dasharray="72.1825180053711 72.1825180053711"
+              d="M4,34 l15,-10 15,20 15,-25"
+            />
+            <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+          </svg>
+        </section>
+
+        <section>
+          <style>
+            .view-box {
+              width: 600px;
+              border: 2px dashed white;
+              stroke: white;
+            }
+          </style>
+          <h2>viewBox & SVG units</h2>
+          <svg viewbox="0 0 10 10" width="1000px" class="view-box">
+            <path d="M1,1 L9,9" />
+          </svg>
+        </section>
+
+        <section>
+          <h2>stroke & fill</h2>
+          <svg viewBox="0 0 56 56" class="view-box">
+            <path stroke="blue" fill="white" d="M4,34 l15,-10 15,20 15,-25" />
+          </svg>
+        </section>
+
+        <section>
+          <style>
+            @keyframes draw-line {
+              from {
+                stroke-dashoffset: var(--length);
+              }
+              to {
+                stroke-dashoffset: 0;
+              }
+            }
+          </style>
+
+          <pre
+            class="fragment"
+            style="
+              position: fixed;
+              top: -40px;
+              left: 0;
+              width: max-content;
+              background: transparent;
+              box-shadow: none;
+            "
+          ><code style="background: linear-gradient(to bottom right, hsl(200 20% 10%) 50%, transparent)" class="css" data-line-numbers="|2-4|5-7|1-7">@keyframes draw-line {
+  from {
+    stroke-dashoffset: var(--length);
+  }
+  to {
+    stroke-dashoffset: 0
+  }
+}</code></pre>
+
+          <svg viewBox="0 0 56 56" class="view-box" fill="none">
+            <path stroke="blue" d="M4,34 l15,-10 15,20 15,-25" />
+          </svg>
+        </section>
+
+        <section>
+          <ol>
+            <li>SVGs are HTMLish</li>
+            <li>✅ CSS transforms, transitions & animations</li>
+            <li>⚠️ transform-box</li>
+            <li class="fragment">✅ Animate SVG-specific attributes</li>
+          </ol>
+        </section>
+
+        <section>
+          <img
+            src="dist/with-great-power.jpg"
+            alt="with great power comes great responsibility"
+          />
+        </section>
+
+        <section>
+          <ol>
+            <li class="fragment">Not everyone uses a mouse</li>
+          </ol>
+        </section>
+
+        <section>
+          <pre><code class="css" data-line-numbers="|1|2">#bar-chart:hover, 
+#bar-chart:focus {
+  .bar {
+    animation: squish 2s;
+  }
+}</code></pre>
+        </section>
+
+        <section>
+          <ol>
+            <li>Not everyone uses a mouse</li>
+            <li class="fragment">Movement can cause motion sickness</li>
+          </ol>
+        </section>
+
+        <section>
+          <pre><code class="css" data-line-numbers="|5,7|6">.bar-chart:hover, .bar-chart:focus { 
+  .bar {
+    animation: squish 2s;
+  
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }</code></pre>
+        </section>
+
+        <section>
+          <ol style="padding-block: 200px">
+            <li>Not everyone uses a mouse</li>
+            <li>Movement can cause motion sickness</li>
+            <li class="fragment">Flashing can cause seizures</li>
+          </ol>
+          <img
+            src="dist/Pikachu.png"
+            alt=""
+            class="fragment"
+            style="
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              transform: translate(33%, 50%);
+            "
+          />
+        </section>
+
+        <section>
+          <h2 style="font-size: 3rem; font-weight: bold">
+            general flash and<br />
+            red flash thresholds
+          </h2>
+          <p style="text-align: start; font-size: 2rem">
+            a flash or rapidly changing image sequence is below the threshold
+            (i.e., content passes) if any of the following are true:
+          </p>
+          <ol style="font-size: 2rem">
+            <li>
+              there are no more than three general flashes and / or no more than
+              three red flashes within any one-second period; or
+            </li>
+            <li>
+              the combined area of flashes occurring concurrently occupies no
+              more than a total of .006 steradians within any 10 degree visual
+              field on the screen (25% of any 10 degree visual field on the
+              screen) at typical viewing distance
+            </li>
+          </ol>
+          <a
+            href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-does-not-violate.html#general-thresholddef"
+            >https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-does-not-violate.html#general-thresholddef</a
+          >
+        </section>
+        <section>
+          <svg width="200px" viewBox="0 0 56 56" class="numbers">
+            <path
+              fill="blue"
+              d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
+            />
+            <path
+              fill="green"
+              d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
+            34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
+            32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
+            30.9145 C 32.2647 26.6773 33.5672 24.4762 33.5672 21.6698 C 33.5672
+            17.4510 29.8435 14.2410 24.8726 14.2410 C 20.9657 14.2410 17.6273
+            16.3688 16.5084 19.5971 C 16.3066 20.2024 16.1966 20.7343 16.1966
+            21.1929 C 16.1966 22.1100 16.7468 22.7153 17.6456 22.7153 C 18.5078
+            22.7153 18.8746 22.3118 19.1497 21.3947 C 19.2965 20.8261 19.4983
+            20.2941 19.7917 19.8355 C 20.7639 18.1847 22.5798 17.1575 24.8726
+            17.1575 C 27.8442 17.1575 30.2104 19.2486 30.2104 21.8532 C 30.2104
+            23.9627 29.3483 25.3750 25.7164 28.9702 L 17.1320 37.5546 C 16.3617
+            38.3066 16.1232 38.7835 16.1232 39.4439 C 16.1232 40.3977 16.7468
+            40.9846 17.7190 40.9846 Z"
+            />
+            <path
+              fill="red"
+              d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
+            />
+          </svg>
+
+          <svg
+            width="200px"
+            viewBox="0 0 56 56"
+            fill="none"
+            class="bar-chart"
+            stroke-width="4"
+          >
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M8,51 l0,-20 8,0 0,20"
+            />
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M22,51 l0,-11 8,0 0,11"
+            />
+            <path
+              class="bar"
+              stroke="blue"
+              fill="blue"
+              stroke-linejoin="round"
+              d="M36,51 l0,-31 8,0 0,31"
+            />
+            <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+          </svg>
+
+          <svg viewBox="0 0 56 56" width="200px" fill="none" class="line-chart">
+            <path
+              stroke="blue"
+              stroke-width="2"
+              stroke-dasharray="72.1825180053711 72.1825180053711"
+              d="M4,34 l15,-10 15,20 15,-25"
+            />
+            <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+          </svg>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        controls: false,
+        progress: false,
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      })
+
+      Reveal.addEventListener("heart-svg", (event) => {
+        const tag = event.target.querySelectorAll(".hljs-tag")[1]
+        const d = tag.querySelectorAll(".hljs-attr")[2]
+        const br = document.createElement("br")
+        tag.insertBefore(br, d)
+        d.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + d.textContent
+
+        const stroke = event.target.querySelectorAll(".hljs-string")[1]
+        stroke.classList.add("code-highlight")
+        const fill = event.target.querySelectorAll(".hljs-string")[2]
+        fill.classList.add("code-highlight")
+        const path = event.target.querySelectorAll(".hljs-string")[3]
+        path.innerHTML =
+          '"<span class="code-highlight">M4,7</span> <span class="code-highlight">L1,4</span> <span class="code-highlight">A1,1 0 1 1 4,2</span> <span class="code-highlight">A1,1 0 1 1 7,4</span><span class="code-highlight">z</span>"'
+      })
+    </script>
+    <style>
+      .code-highlight:hover {
+        /* background: hsl(0 0% 100%/0.2); */
+        color: hsl(80 76% 53%);
+        cursor: none;
+        padding: 8px;
+        margin: -8px;
+        border-radius: 20px;
+      }
+
+      code.html:has(.code-highlight:hover)
+        .hljs-tag:not(:has(.code-highlight:hover)) {
+        opacity: 0.4;
+      }
+      .hljs-tag:has(.code-highlight:hover),
+      .hljs-tag:has(.code-highlight:hover) .hljs-name {
+        color: hsl(338 95% 56%/0.4);
+      }
+      .hljs-tag:has(.code-highlight:hover) .hljs-string {
+        color: hsl(80 76% 53%/0.4);
+      }
+    </style>
+  </body>
 </html>
