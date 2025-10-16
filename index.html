@@ -21,6 +21,12 @@
         border-radius: 20px;
         padding: 20px 30px;
       }
+
+      body {
+        --blue: hsl(200, 95%, 50%);
+        --green: lab(85.66% -83.36 76.91);
+        --pink: lab(56.7% 90.66 -40.23);
+      }
     </style>
   </head>
   <body>
@@ -53,8 +59,12 @@
             >
               <defs>
                 <linearGradient id="spinner-gradient">
-                  <stop stop-color="red" stop-opacity="0" offset="0%" />
-                  <stop stop-color="red" stop-opacity="1" offset="50%" />
+                  <stop stop-color="var(--pink)" stop-opacity="0" offset="0%" />
+                  <stop
+                    stop-color="var(--pink)"
+                    stop-opacity="1"
+                    offset="50%"
+                  />
                 </linearGradient>
               </defs>
               <path
@@ -330,11 +340,11 @@
             </style>
             <svg width="200px" viewBox="0 0 56 56" class="numbers">
               <path
-                fill="blue"
+                fill="var(--blue)"
                 d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
               />
               <path
-                fill="green"
+                fill="var(--green)"
                 d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
             34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
             32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
@@ -350,7 +360,7 @@
             40.9846 17.7190 40.9846 Z"
               />
               <path
-                fill="red"
+                fill="var(--pink)"
                 d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
               />
             </svg>
@@ -382,22 +392,22 @@
             >
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M8,51 l0,-20 8,0 0,20"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M22,51 l0,-11 8,0 0,11"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M36,51 l0,-31 8,0 0,31"
               />
@@ -426,7 +436,7 @@
               class="line-chart"
             >
               <path
-                stroke="blue"
+                stroke="var(--pink)"
                 stroke-width="2"
                 stroke-dasharray="72.1825180053711 72.1825180053711"
                 d="M4,34 l15,-10 15,20 15,-25"
@@ -452,6 +462,15 @@
               border: 1px solid hsl(0 0 40%);
               background: white;
             }
+            .reveal .fragment.grow {
+              opacity: 0.5;
+            }
+            .reveal .fragment.grow.current-fragment {
+              opacity: 1;
+            }
+            .reveal .fragment.grow.visible:not(.current-fragment) {
+              transform: scale(1);
+            }
           </style>
           <div
             style="
@@ -459,7 +478,7 @@
               align-items: center;
               justify-content: space-between;
               padding-inline: 80px;
-              gap: 40px;
+              gap: 80px;
             "
           >
             <div
@@ -468,7 +487,7 @@
                 grid-template-columns: repeat(8, 30px);
                 grid-template-rows: repeat(8, 30px);
               "
-              class="heart-container"
+              class="heart-container fragment grow"
             >
               <!-- row 1 -->
               <div></div>
@@ -553,7 +572,7 @@
                 color: hsl(0 0 50%);
                 font-size: 24px;
               "
-              class="heart-container"
+              class="heart-container fragment grow"
             >
               <!-- row 1 -->
               <div>w</div>
@@ -637,6 +656,7 @@
                 text-align: start;
                 font-size: 24px;
               "
+              class="fragment grow"
             >
               w8wb2wb3wbrbr2mbbr4mbbr5mbwbr3mbww2bm2bw2w3w2w3
             </code>
@@ -661,7 +681,7 @@
   viewbox="0 0 8 8"
 >
   <path 
-    stroke="white" fill="red"
+    stroke="aliceblue" fill="red"
     d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z" 
   >
   </path>
@@ -698,6 +718,10 @@
           </div>
         </section>
 
+        <section>
+          <h2>SVGs are HTMLish</h2>
+        </section>
+
         <section id="using-svg">
           <pre
             style="margin-block-end: 40px"
@@ -706,11 +730,13 @@
   <img src="heart.svg" alt="" />
 </button></code></pre>
 
-          <pre><code data-line-numbers="|3,4,5"><button onClick="addToFavourites">
+          <pre
+            class="fragment"
+          ><code data-line-numbers="|3,4,5"><button onClick="addToFavourites">
   Add to favourites
   <svg
     viewBox="0 0 8 8"
-    fill="red"
+    fill="var(--pink)"
     stroke="black"
   >
     <path
@@ -724,7 +750,7 @@
           <pre><code data-line-numbers="" class="jsx">export function HeartIcon () {
   return <svg
     viewBox="0 0 8 8"
-    fill="red"
+    fill="var(--pink)"
     stroke="black"
   >
     <path
@@ -733,16 +759,41 @@
   </svg>
 }</code></pre>
 
-          <pre><code data-line-numbers="|3">&lt;button onClick={addToFavourites}>
+          <pre
+            class="fragment"
+          ><code data-line-numbers="|3">&lt;button onClick={addToFavourites}>
   Add to favourites
   &lt;HeartIcon />
 &lt;/button></code></pre>
         </section>
 
         <section>
-          <ol>
-            <li>SVGs are HTMLish</li>
-          </ol>
+          <h2>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                font-size: 1.4em;
+              "
+            >
+              SVG
+              <svg
+                viewBox="0 0 8 8"
+                width="150px"
+                style="background: transparent"
+                stroke-width="0.5"
+                fill="red"
+              >
+                <path
+                  stroke="hsl(200 90% 80%)"
+                  d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
+                />
+              </svg>
+              CSS
+            </div>
+          </h2>
         </section>
 
         <section>
@@ -778,11 +829,11 @@
           >
             <svg width="250px" viewBox="0 0 56 56" class="numbers" tabindex="0">
               <path
-                fill="blue"
+                fill="var(--blue)"
                 d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
               />
               <path
-                fill="green"
+                fill="var(--green)"
                 d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
             34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
             32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
@@ -798,18 +849,18 @@
             40.9846 17.7190 40.9846 Z"
               />
               <path
-                fill="red"
+                fill="var(--pink)"
                 d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
               />
             </svg>
 
             <svg width="250px" viewBox="0 0 56 56" id="numbers">
               <path
-                fill="blue"
+                fill="var(--blue)"
                 d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
               />
               <path
-                fill="green"
+                fill="var(--green)"
                 d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
             34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
             32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
@@ -825,7 +876,7 @@
             40.9846 17.7190 40.9846 Z"
               />
               <path
-                fill="red"
+                fill="var(--pink)"
                 d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
               />
             </svg>
@@ -850,22 +901,22 @@
           >
             <path
               class="bar"
-              stroke="blue"
-              fill="blue"
+              stroke="var(--green)"
+              fill="var(--green)"
               stroke-linejoin="round"
               d="M8,51 l0,-20 8,0 0,20"
             />
             <path
               class="bar"
-              stroke="blue"
-              fill="blue"
+              stroke="var(--green)"
+              fill="var(--green)"
               stroke-linejoin="round"
               d="M22,51 l0,-11 8,0 0,11"
             />
             <path
               class="bar"
-              stroke="blue"
-              fill="blue"
+              stroke="var(--green)"
+              fill="var(--green)"
               stroke-linejoin="round"
               d="M36,51 l0,-31 8,0 0,31"
             />
@@ -883,22 +934,22 @@
             <svg width="200px" viewBox="0 0 56 56" fill="none" stroke-width="4">
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M8,51 l0,-20 8,0 0,20"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M22,51 l0,-11 8,0 0,11"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M36,51 l0,-31 8,0 0,31"
               />
@@ -913,22 +964,22 @@
             >
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M8,51 l0,-20 8,0 0,20"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M22,51 l0,-11 8,0 0,11"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M36,51 l0,-31 8,0 0,31"
               />
@@ -937,22 +988,22 @@
             <svg width="200px" viewBox="0 0 56 56" fill="none" stroke-width="4">
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M8,51 l0,-20 8,0 0,20"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M22,51 l0,-11 8,0 0,11"
               />
               <path
                 class="bar"
-                stroke="blue"
-                fill="blue"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M36,51 l0,-31 8,0 0,31"
               />
@@ -985,22 +1036,22 @@
           >
             <path
               class="bar"
-              stroke="blue"
-              fill="blue"
+              stroke="var(--green)"
+              fill="var(--green)"
               stroke-linejoin="round"
               d="M8,51 l0,-20 8,0 0,20"
             />
             <path
               class="bar"
-              stroke="blue"
-              fill="blue"
+              stroke="var(--green)"
+              fill="var(--green)"
               stroke-linejoin="round"
               d="M22,51 l0,-11 8,0 0,11"
             />
             <path
               class="bar"
-              stroke="blue"
-              fill="blue"
+              stroke="var(--green)"
+              fill="var(--green)"
               stroke-linejoin="round"
               d="M36,51 l0,-31 8,0 0,31"
             />
@@ -1022,7 +1073,7 @@
         <section>
           <svg viewBox="0 0 56 56" width="600px" fill="none" class="line-chart">
             <path
-              stroke="blue"
+              stroke="var(--pink)"
               stroke-width="2"
               stroke-dasharray="72.1825180053711 72.1825180053711"
               d="M4,34 l15,-10 15,20 15,-25"
@@ -1048,7 +1099,11 @@
         <section>
           <h2>stroke & fill</h2>
           <svg viewBox="0 0 56 56" class="view-box">
-            <path stroke="blue" fill="white" d="M4,34 l15,-10 15,20 15,-25" />
+            <path
+              stroke="var(--pink)"
+              fill="white"
+              d="M4,34 l15,-10 15,20 15,-25"
+            />
           </svg>
         </section>
 
@@ -1084,7 +1139,7 @@
 }</code></pre>
 
           <svg viewBox="0 0 56 56" class="view-box" fill="none">
-            <path stroke="blue" d="M4,34 l15,-10 15,20 15,-25" />
+            <path stroke="var(--pink)" d="M4,34 l15,-10 15,20 15,-25" />
           </svg>
         </section>
 
@@ -1183,14 +1238,15 @@
           >
         </section>
         <section>
-          <svg width="200px" viewBox="0 0 56 56" class="numbers">
-            <path
-              fill="blue"
-              d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
-            />
-            <path
-              fill="green"
-              d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
+          <div style="display: flex; gap: 60px">
+            <svg width="200px" viewBox="0 0 56 56" class="numbers">
+              <path
+                fill="var(--blue)"
+                d="M 9.3547 41.3515 C 10.3636 41.3515 11.0423 40.6912 11.0423 39.6823 L 11.0423 16.2404 C 11.0423 15.0481 10.2902 14.3878 9.1346 14.3878 C 8.3092 14.3878 7.8323 14.6446 7.0619 15.1398 L .9538 19.1018 C .2384 19.5787 0 20.0006 0 20.6059 C 0 21.3580 .5503 21.9083 1.3757 21.9083 C 1.8526 21.9083 2.0911 21.7615 2.4396 21.5414 L 7.6489 18.2581 L 7.7222 18.2581 L 7.7222 39.6823 C 7.7222 40.6912 8.3459 41.3515 9.3547 41.3515 Z"
+              />
+              <path
+                fill="var(--green)"
+                d="M 17.7190 40.9846 L 32.9617 40.9846 C 33.8974 40.9846
             34.4842 40.3977 34.4842 39.5172 C 34.4842 38.6368 33.8974 38.0315
             32.9617 38.0315 L 20.7456 38.0315 L 20.7456 37.9398 L 27.9175
             30.9145 C 32.2647 26.6773 33.5672 24.4762 33.5672 21.6698 C 33.5672
@@ -1203,53 +1259,59 @@
             23.9627 29.3483 25.3750 25.7164 28.9702 L 17.1320 37.5546 C 16.3617
             38.3066 16.1232 38.7835 16.1232 39.4439 C 16.1232 40.3977 16.7468
             40.9846 17.7190 40.9846 Z"
-            />
-            <path
-              fill="red"
-              d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
-            />
-          </svg>
+              />
+              <path
+                fill="var(--pink)"
+                d="M 46.3520 41.3882 C 51.9647 41.3882 56 38.1048 56 33.6292 C 56 29.9974 53.3956 27.6128 49.2134 27.3377 L 49.2134 27.2643 C 52.6983 26.6773 54.8629 24.3479 54.8629 21.0828 C 54.8629 17.1208 51.2678 14.2410 46.2603 14.2410 C 42.5000 14.2410 39.4369 15.9102 38.1345 18.6433 C 37.7859 19.3219 37.6390 19.9456 37.6390 20.6610 C 37.6390 21.5231 38.2261 22.1100 39.0698 22.1100 C 39.8952 22.1100 40.2806 21.7615 40.5556 20.9178 C 41.3445 18.5149 43.3621 17.1392 46.1502 17.1392 C 49.4335 17.1392 51.5428 18.8634 51.5428 21.5047 C 51.5428 24.2561 49.2866 26.0720 46.0034 26.0720 L 43.9857 26.0720 C 43.1236 26.0720 42.5368 26.6040 42.5368 27.4477 C 42.5368 28.2732 43.1236 28.8234 43.9857 28.8234 L 46.0402 28.8234 C 50.1123 28.8234 52.5334 30.5477 52.5334 33.6109 C 52.5334 36.4357 50.0022 38.4167 46.3704 38.4167 C 43.2152 38.4167 40.9410 37.0226 40.1153 34.6014 C 39.8403 33.8127 39.3816 33.4458 38.6112 33.4458 C 37.6574 33.4458 37.0338 34.0511 37.0338 35.0049 C 37.0338 35.6469 37.1991 36.2339 37.5473 36.8759 C 39.0698 39.7740 42.2614 41.3882 46.3520 41.3882 Z"
+              />
+            </svg>
 
-          <svg
-            width="200px"
-            viewBox="0 0 56 56"
-            fill="none"
-            class="bar-chart"
-            stroke-width="4"
-          >
-            <path
-              class="bar"
-              stroke="blue"
-              fill="blue"
-              stroke-linejoin="round"
-              d="M8,51 l0,-20 8,0 0,20"
-            />
-            <path
-              class="bar"
-              stroke="blue"
-              fill="blue"
-              stroke-linejoin="round"
-              d="M22,51 l0,-11 8,0 0,11"
-            />
-            <path
-              class="bar"
-              stroke="blue"
-              fill="blue"
-              stroke-linejoin="round"
-              d="M36,51 l0,-31 8,0 0,31"
-            />
-            <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
-          </svg>
+            <svg
+              width="200px"
+              viewBox="0 0 56 56"
+              fill="none"
+              class="bar-chart"
+              stroke-width="4"
+            >
+              <path
+                class="bar"
+                stroke="var(--blue)"
+                fill="var(--blue)"
+                stroke-linejoin="round"
+                d="M8,51 l0,-20 8,0 0,20"
+              />
+              <path
+                class="bar"
+                stroke="var(--blue)"
+                fill="var(--blue)"
+                stroke-linejoin="round"
+                d="M22,51 l0,-11 8,0 0,11"
+              />
+              <path
+                class="bar"
+                stroke="var(--blue)"
+                fill="var(--blue)"
+                stroke-linejoin="round"
+                d="M36,51 l0,-31 8,0 0,31"
+              />
+              <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+            </svg>
 
-          <svg viewBox="0 0 56 56" width="200px" fill="none" class="line-chart">
-            <path
-              stroke="blue"
-              stroke-width="2"
-              stroke-dasharray="72.1825180053711 72.1825180053711"
-              d="M4,34 l15,-10 15,20 15,-25"
-            />
-            <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
-          </svg>
+            <svg
+              viewBox="0 0 56 56"
+              width="200px"
+              fill="none"
+              class="line-chart"
+            >
+              <path
+                stroke="var(--blue)"
+                stroke-width="2"
+                stroke-dasharray="72.1825180053711 72.1825180053711"
+                d="M4,34 l15,-10 15,20 15,-25"
+              />
+              <path stroke="grey" stroke-width="1" d="M4,4 L4,52 52,52" />
+            </svg>
+          </div>
         </section>
       </div>
     </div>
