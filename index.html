@@ -33,7 +33,45 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <h1>SVG Animations</h1>
+          <style>
+            @keyframes draw-title {
+              from {
+                stroke-dashoffset: 0;
+              }
+              to {
+                stroke-dashoffset: 225;
+              }
+            }
+          </style>
+          <h1 style="margin-top: 100px">
+            <svg
+              viewBox="0 0 100 40"
+              stroke="white"
+              stroke-width="4"
+              fill="none"
+              width="60%"
+              style="overflow: visible"
+              stroke-dasharray="6 8"
+            >
+              <path
+                stroke-linecap="square"
+                stroke-linejoin="bevel"
+                d="M2,31 A10.5,8 0 1 0 15,20 L8,17 A9,7 0 1 1 22,10 M32,6 l12,30 12,-30 M82,6 a15,16 0 1 0 4,28 l0,-12 -8,0"
+                style="animation: draw-title 20s infinite linear"
+              />
+            </svg>
+            <br />
+            Animations
+          </h1>
+          <svg viewBox="0 0 20 20">
+            <polygon fill="#FFD41D" points=" ... shape 1 points ... ">
+              <animate
+                attributeName="points"
+                dur="500ms"
+                to=" ... shape 2 points ... "
+              />
+            </polygon>
+          </svg>
         </section>
 
         <section>
@@ -448,10 +486,7 @@
 
         <section>
           <div style="display: flex">
-            <h2>
-              not like the<br />
-              other image formats
-            </h2>
+            <h2>SVG: not like <br />the other <br />image formats</h2>
             <img width="400px" src="./dist/sheep.png" alt="a black sheep" />
           </div>
         </section>
@@ -718,10 +753,6 @@
           </div>
         </section>
 
-        <section>
-          <h2>SVGs are HTMLish</h2>
-        </section>
-
         <section id="using-svg">
           <pre
             style="margin-block-end: 40px"
@@ -736,8 +767,8 @@
   Add to favourites
   <svg
     viewBox="0 0 8 8"
-    fill="var(--pink)"
-    stroke="black"
+    fill="red"
+    stroke="aliceblue"
   >
     <path
       d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
@@ -750,8 +781,8 @@
           <pre><code data-line-numbers="" class="jsx">export function HeartIcon () {
   return <svg
     viewBox="0 0 8 8"
-    fill="var(--pink)"
-    stroke="black"
+    fill="red"
+    stroke="aliceblue"
   >
     <path
       d="M4,7 L1,4 A1,1 0 1 1 4,2 A1,1 0 1 1 7,4z"
@@ -1238,7 +1269,18 @@
           >
         </section>
         <section>
-          <div style="display: flex; gap: 60px">
+          <a
+            style="
+              font-size: 1.8em;
+              color: var(--blue);
+              margin-bottom: 100px;
+              display: block;
+              text-decoration: underline;
+            "
+            href="https://svg-animations.ez.codes"
+            >svg-animations.ez.codes</a
+          >
+          <div style="display: flex; gap: 60px; justify-content: center">
             <svg width="200px" viewBox="0 0 56 56" class="numbers">
               <path
                 fill="var(--blue)"
@@ -1275,22 +1317,22 @@
             >
               <path
                 class="bar"
-                stroke="var(--blue)"
-                fill="var(--blue)"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M8,51 l0,-20 8,0 0,20"
               />
               <path
                 class="bar"
-                stroke="var(--blue)"
-                fill="var(--blue)"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M22,51 l0,-11 8,0 0,11"
               />
               <path
                 class="bar"
-                stroke="var(--blue)"
-                fill="var(--blue)"
+                stroke="var(--green)"
+                fill="var(--green)"
                 stroke-linejoin="round"
                 d="M36,51 l0,-31 8,0 0,31"
               />
@@ -1304,7 +1346,7 @@
               class="line-chart"
             >
               <path
-                stroke="var(--blue)"
+                stroke="var(--pink)"
                 stroke-width="2"
                 stroke-dasharray="72.1825180053711 72.1825180053711"
                 d="M4,34 l15,-10 15,20 15,-25"
