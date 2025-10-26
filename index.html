@@ -1120,8 +1120,43 @@
               border: 2px dashed white;
               stroke: white;
             }
+            .background.current-fragment + svg[viewBox="0 0 10 10"] {
+              background: repeating-linear-gradient(
+                  transparent,
+                  transparent calc(10% - 1px),
+                  hsl(0 0% 80%/0.4) calc(10% - 1px),
+                  hsl(0 0% 80%/0.4) 10%,
+                  transparent 10%
+                ),
+                repeating-linear-gradient(
+                  to right,
+                  transparent,
+                  transparent calc(10% - 1px),
+                  hsl(0 0% 80%/0.4) calc(10% - 1px),
+                  hsl(0 0% 80%/0.4) 10%,
+                  transparent 10%
+                );
+            }
+            .background.current-fragment + svg[viewBox="0 0 20 20"] {
+              background: repeating-linear-gradient(
+                  transparent,
+                  transparent calc(5% - 1px),
+                  hsl(0 0% 80%/0.4) calc(5% - 1px),
+                  hsl(0 0% 80%/0.4) 5%,
+                  transparent 5%
+                ),
+                repeating-linear-gradient(
+                  to right,
+                  transparent,
+                  transparent calc(5% - 1px),
+                  hsl(0 0% 80%/0.4) calc(5% - 1px),
+                  hsl(0 0% 80%/0.4) 5%,
+                  transparent 5%
+                );
+            }
           </style>
           <h2>viewBox & SVG units</h2>
+          <div class="background fragment"></div>
           <svg viewbox="0 0 10 10" width="1000px" class="view-box">
             <path d="M1,1 L9,9" />
           </svg>
